@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/common.js"></script>
+    <script src="../js/ajax.js"></script>
+    <script src="../js/request.js"></script>
+    <script src="../js/register.js"></script>
+    <style>
+        .right {
+            font-size: 12px;
+            color: green;
+        }
+
+        .err {
+            font-size: 12px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <span class="user_span" style="color: red;font-size: 12px;"></span> -->
+    <form class="form" onsubmit="return false" autocomplete="on">
+        <p>
+            <label>用户名:</label>
+            <input class="user" type="text">
+            <span class="user_span"></span>
+        </p>
+        <p>
+            <label>密&emsp;码:</label>
+            <input class="pwd" type="text">
+            <span class="pwd_span"></span>
+        </p>
+        <p>
+            <label>邮&emsp;箱:</label>
+            <input class="email" type="text">
+            <span class="email_span"></span>
+        </p>
+        <p>
+            <label>手机号:</label>
+            <input class="phone" type="text">
+            <span class="phone_span"></span>
+        </p>
+        <p>
+            <label>验证码:</label>
+            <input class="code" type="text">
+            <i class="createCode">1234</i>
+            <span class="code_span"></span>
+        </p>
+        <p>
+            <button class="btn">点击</button>
+        </p>
+    </form>
+</body>
+<script>
+    // 用户名 
+    // 由 数字,大小写字母,_,$ 组成, 6-12位,且不能以数字开头
+
+    // 要求
+    // 1.  由 数字,大小写字母,_,$ 组成
+    // 2.  6-12位
+    // 3.  不能以数字开头
+
+    // 按照从易到难的顺序 验证
+    //  a. 6-12位
+    //  b. 不能以数字开头    => 找到开头 判断是否是数字; 
+    //  c. 由 数字,大小写字母,_,$ 组成
+
+    //  由 数字,大小写字母,_,$ 组成  遍历字符串 判断每个字符是否都合法(是否存在非法字符)
+
+    // 方法1：  找码表范围
+    // 数字     charCode>=48 && charCode<=57
+    // 大写字母   charCode>=65 && charCode<=90
+    // 小写字母   charCode>=97 && charCode<=122
+    // _  $      charCode==45 || charCode==36  
+
+
+
+
+    var userInp = document.getElementsByClassName("user")[0];
+    var userSpan = document.getElementsByClassName("user_span")[0];
+
+    var pwdInp = document.getElementsByClassName("pwd")[0];
+    var pwdSpan = document.getElementsByClassName("pwd_span")[0];
+
+    var phoneInp = document.getElementsByClassName("phone")[0];
+    var phoneSpan = document.getElementsByClassName("phone_span")[0];
+
+    var emailInp = document.getElementsByClassName("email")[0];
+    var emailSpan = document.getElementsByClassName("email_span")[0];
+
+    var codeInp = document.getElementsByClassName("code")[0];
+    var codeSpan = document.getElementsByClassName("code_span")[0];
+    var createCodeSpan = document.getElementsByClassName("createCode")[0];
+
+    var spanList = document.querySelectorAll("form span");
+
+    var btn = document.getElementsByClassName("btn")[0];
+
+    createCodeSpan.innerText = randCode();
+
+    createCodeSpan.onclick = function () {
+        createCodeSpan.innerText = randCode();
+    }
+
+    var userFlag = false;
+    var pwdFlag = false;
+    var emailFlag = false;
+    var phoneFlag = false;
+    var codeFlag = false;
+
+    // 一步到位
+    userInp.onblur = function () {
+        var user = userInp.value;
+        var reg = /^[a-zA-Z_$][\w$]{5,11}$/;
+
+        judgeUser(user).then(result => {
+            userSpan.textContent = result.msg;
+            userSpan.className = "right";
+        }).catch(result => {
+            userSpan.textContent = result.msg;
+            userSpan.className = "err";
+        })
+
+
+        // 每次验证之前先重置为false
+        // var p = new Promise(function (resolve, reject) {
+        //     if (reg.test(user)) {
+        //         isExistUser({ user }).then(result => {   // {status,msg}
+        //             if (result.status) {
+        //                 resolve(result);
+        //             } else {
+        //                 reject(result);
+        //             }
+        //         })
+
+        //     } else {
+        //         reject({
+        //             status: false,
+        //             msg: "用户名由数字,字母,下划线,$组成 6-12位,不能以数字开头"
+        //         })
+        //     }
+        // })
+        // p.then(result => {
+        //     userSpan.textContent = result.msg;
+        //     userSpan.className = "right";
+        // }).catch(result => {
+        //     userSpan.textContent = result.msg;
+        //     userSpan.className = "err";
+        // })
+    }
+
+    pwdInp.onblur = function () {
+        var pwd = pwdInp.value;
+        var reg = /^[\w$]{6,12}$/;
+
+
+        var p = judgePwd(pwd);
+        p.then(result => {
+            pwdSpan.textContent = result.msg;
+            pwdSpan.className = "right";
+        }).catch(result => {
+            pwdSpan.textContent = result.msg;
+            pwdSpan.className = "err";
+        })
+
+        // judgePwd(pwd).then(result => {
+        //     pwdSpan.textContent = result.msg;
+        //     pwdSpan.className = "right";
+        // }).catch(result => {
+        //     pwdSpan.textContent = result.msg;
+        //     pwdSpan.className = "err";
+        // })
+
+
+        // pwdFlag = false;
+        // if (reg.test(pwd)) {
+        //     // pwdSpan.textContent = "√";
+        //     // pwdSpan.className = "right";
+
+        //     var numFlag = false;
+        //     var smallFlag = false;
+        //     var bigFlag = false;
+        //     var speFlag = false;
+
+        //     var numReg = /[0-9]/;
+        //     var smallReg = /[a-z]/;
+        //     var bigReg = /[A-Z]/;
+        //     var speReg = /[_$]/;
+
+        //     if (numReg.test(pwd)) {
+        //         numFlag = true;
+        //     }
+        //     if (smallReg.test(pwd)) {
+        //         smallFlag = true;
+        //     }
+        //     if (bigReg.test(pwd)) {
+        //         bigFlag = true;
+        //     }
+        //     if (speReg.test(pwd)) {
+        //         speFlag = true;
+        //     }
+
+        //     var sum = numFlag + smallFlag + bigFlag + speFlag;
+
+        //     pwdSpan.textContent = "密码强度:" + sum;
+        //     pwdSpan.className = "right";
+
+        //     pwdFlag = true;
+
+        // } else {
+        //     pwdSpan.textContent = "密码由数字,字母,下划线,$组成 6-12位";
+        //     pwdSpan.className = "err";
+        // }
+    }
+
+    emailInp.onblur = function () {
+        var email = emailInp.value;
+        var reg = /^\w{6,18}@\w+\.com$/
+
+        judgeEmail(email).then(result => {
+            emailSpan.textContent = result.msg;
+            emailSpan.className = "right";
+        }).catch(result => {
+            emailSpan.textContent = result.msg;
+            emailSpan.className = "err";
+        })
+        // emailFlag = false;
+        // if (reg.test(email)) {
+        //     isExistEmail({ email }).then(result => {
+        //         if (result.status) {
+        //             emailSpan.textContent = "√";
+        //             emailSpan.className = "right";
+        //             emailFlag = true;
+        //         } else {
+        //             emailSpan.textContent = result.msg;
+        //             emailSpan.className = "err";
+        //         }
+        //     })
+
+        // } else {
+        //     emailSpan.textContent = "请输入正确的邮箱";
+        //     emailSpan.className = "err";
+        // }
+    }
+
+    phoneInp.onblur = function () {
+        var phone = phoneInp.value;
+        var reg = /^1[3-9]\d{9}$/
+        judgePhone(phone).then(result => {
+            phoneSpan.textContent = result.msg;
+            phoneSpan.className = "right";
+        }).catch(result => {
+            phoneSpan.textContent = result.msg;
+            phoneSpan.className = "err";
+        })
+
+        // phoneFlag = false;
+        // if (reg.test(phone)) {
+        //     isExistPhone({ phone }).then(result => {
+        //         if (result.status) {
+        //             phoneSpan.textContent = "√";
+        //             phoneSpan.className = "right";
+        //             phoneFlag = true;
+        //         } else {
+        //             phoneSpan.textContent = result.msg;
+        //             phoneSpan.className = "err";
+        //         }
+        //     })
+        // } else {
+        //     phoneSpan.textContent = "请输入正确的手机号";
+        //     phoneSpan.className = "err";
+        // }
+    }
+
+    codeInp.onblur = function () {
+        var code = codeInp.value;  //用户输入的
+        var _rand = createCodeSpan.innerText;
+
+        judgeCode(code, _rand).then(result => {
+            codeSpan.textContent = result.msg;
+            codeSpan.className = "right";
+        }).catch(result => {
+            codeSpan.textContent = result.msg;
+            codeSpan.className = "err";
+        });
+
+
+        // var reg = new RegExp(_rand, "i");
+        // codeFlag = false;
+        // if (code) {
+        //     if (reg.test(code)) {
+        //         codeSpan.textContent = "√";
+        //         codeSpan.className = "right";
+        //         codeFlag = true;
+        //     } else {
+        //         codeSpan.textContent = "x";
+        //         codeSpan.className = "err";
+        //     }
+        // } else {
+        //     codeSpan.textContent = "请输入验证码";
+        //     codeSpan.className = "err";
+        // }
+    }
+
+
+
+
+    btn.onclick = function () {
+        // userInp.onblur();
+        // pwdInp.onblur();
+        // emailInp.onblur();
+        // phoneInp.onblur();
+        // codeInp.onblur();
+        var user = userInp.value;
+        var pwd = pwdInp.value;
+        var phone = phoneInp.value;
+        var email = emailInp.value;
+        var code = codeInp.value;  //用户输入的
+        var _rand = createCodeSpan.innerText;
+
+        var pList = [judgeUser(user), judgePwd(pwd), judgeEmail(email), judgePhone(phone), judgeCode(code, _rand)];
+
+        // 全都成功就注册
+        // Promise.all(pList).then(res => {
+        //     register({ user, pwd, phone, email }).then(result => {
+        //         if (result.status) {
+        //             location.href = "./login.html";
+        //         } else {
+        //             alert("注册失败");
+        //         }
+        //     }).catch(err => {
+        //         throw err;
+        //     })
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+
+        Promise.allSettled(pList).then(list => {
+            console.log(list);
+
+            var flag = list.every(result => result.status == "fulfilled");
+            if (flag) {
+                register({ user, pwd, phone, email }).then(result => {
+                    if (result.status) {
+                        location.href = "./login.html";
+                    } else {
+                        alert("注册失败");
+                    }
+                }).catch(err => {
+                    throw err;
+                })
+            } else {
+                list.forEach((result, index) => {
+                    if (result.status == "fulfilled") {
+                        var { value: { msg } } = result;
+                        spanList[index].className = "right";
+                        spanList[index].textContent = msg;
+                    } else {
+                        var { reason: { msg } } = result;
+                        spanList[index].className = "err";
+                        spanList[index].textContent = msg;
+                    }
+                })
+            }
+
+        }).catch(err => {
+            console.log(err);
+        })
+
+
+
+
+        // 全都验证成功跳转 (立flag)
+        // if (userFlag && pwdFlag && emailFlag && phoneFlag && codeFlag) {
+
+        //     // cookie 模拟注册(存cookie 存账号)和登录(取cookie做对比)   
+
+        //     register({ user, pwd, phone, email }).then(result => {
+        //         if (result.status) {
+        //             location.href = "./login.html";
+        //         } else {
+        //             alert("注册失败");
+        //         }
+        //     }).catch(err => {
+        //         throw err;
+        //     })
+
+        // }
+    }
+
+
+    function setCookie(key, val, day = 0, path = "/") {
+
+        if (day) {  // 如果有day  设置过期时间
+            var date = new Date();
+            date.setDate(date.getDate() + day);
+            document.cookie = key + "=" + val + ";expires=" + date.toUTCString() + ";path=" + path;
+        } else {  //没有  就默认浏览器关闭过期
+            document.cookie = key + "=" + val + ";path=" + path;
+        }
+    }
+</script>
+
+</html>

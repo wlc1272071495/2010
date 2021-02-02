@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/cookie.js"></script>
+</head>
+
+<body>
+    <!--  onsubmit="return false"    阻止表单默认提交 -->
+    <form onsubmit="return false">
+        <p><label for="">账&emsp;号:</label><input name="user" placeholder="用户名/手机号/邮箱" type="text"></p>
+        <p><label for="">密&emsp;码:</label><input name="pwd" placeholder="密码" type="text"></p>
+        <p><label><input type="checkbox" class="isRem">是否记住本账号?</label></p>
+        <p><button class="logBtn">登录</button></p>
+    </form>
+</body>
+<script>
+
+
+
+
+    var userInp = document.getElementsByName("user")[0];
+    var pwdInp = document.getElementsByName("pwd")[0];
+    var logBtn = document.getElementsByClassName("logBtn")[0];
+    var isRem = document.getElementsByClassName("isRem")[0];
+
+
+
+
+    logBtn.onclick = function () {
+        // 用户输入的
+
+
+        var account = userInp.value;
+        var pwd = pwdInp.value;
+
+        if (account && pwd) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("post", "../php/login_account.php", true);
+
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.send(`account=${account}&pwd=${pwd}`);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                    var result = JSON.parse(xhr.responseText);
+                    console.log(result);
+                    if (result.status) {
+
+                        if (isRem.checked) {
+                            setCookie("lgc", result.user, 7);
+                        } else {
+                            setCookie("lgc", result.user);
+                        }
+
+                        location.href = "./index.html";
+                    } else {
+                        alert(result.msg);
+                    }
+                }
+            }
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/search.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../pagination/common/reset.css">
+    <link rel="stylesheet" href="../pagination/pagination.css">
+
+    <script src="../js/jquery-1.10.1.min.js"></script>
+    <script src="../js/cookie.js"></script>
+    <script src="../js/request.js"></script>
+    <script src="../pagination/jquery.pagination.js"></script>
+
+</head>
+
+<body>
+    <!-- haha -->
+    <div class="tips">
+        <a href="./register.html">注册</a>
+        <a href="./login.html">登录</a>
+    </div>
+    <a href="./goodsList.html">商品列表</a>
+
+    <div class="wrapAll w">
+        <form class="search_bar" onsubmit="return false">
+            <div class="searchBox">
+                <input type="text" class="searchCon">
+                <button class="searchBtn">搜索</button>
+            </div>
+            <div class="orderBox">
+                <!-- 排序的列(column)名 (id,chinese,math,english,total) -->
+                <div class="orderColBox">
+                    <label>
+                        学号
+                        <input type="radio" checked name="orderCol" class="orderCol" value="id">
+                    </label>
+                    <label>
+                        语文
+                        <input type="radio" name="orderCol" class="orderCol" value="chinese">
+                    </label>
+                    <label>
+                        数学
+                        <input type="radio" name="orderCol" class="orderCol" value="math">
+                    </label>
+                    <label>
+                        英语
+                        <input type="radio" name="orderCol" class="orderCol" value="english">
+                    </label>
+                    <label>
+                        总分
+                        <input type="radio" name="orderCol" class="orderCol" value="total">
+                    </label>
+                </div>
+
+                <!-- 排序的类型  升序 / 降序 -->
+                <div class="orderTypeBox">
+                    <label>
+                        升序
+                        <input type="radio" checked name="orderType" class="orderType" value="asc">
+                    </label>
+                    <label>
+                        降序
+                        <input type="radio" name="orderType" class="orderType" value="desc">
+                    </label>
+                </div>
+
+                <div class="showNumBox">
+                    <select class="select">
+                        <option value="5" selected>每页显示05条</option>
+                        <option value="10">每页显示10条</option>
+                        <option value="15">每页显示15条</option>
+                        <option value="20">每页显示20条</option>
+                    </select>
+                </div>
+                <input type="reset" class="resetBtn" value="重置">
+            </div>
+        </form>
+        <div class="wrapTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>姓名</th>
+                        <th>班级</th>
+                        <th>语文</th>
+                        <th>数学</th>
+                        <th>英语</th>
+                        <th>总分</th>
+                        <th>编辑</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr>
+                        <td>01</td>
+                        <td>02</td>
+                        <td>03</td>
+                        <td>04</td>
+                        <td>05</td>
+                        <td>06</td>
+                        <td>07</td>
+                        <td>08</td>
+                        <td>09</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>02</td>
+                        <td>03</td>
+                        <td>04</td>
+                        <td>05</td>
+                        <td>06</td>
+                        <td>07</td>
+                        <td>08</td>
+                        <td>09</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>02</td>
+                        <td>03</td>
+                        <td>04</td>
+                        <td>05</td>
+                        <td>06</td>
+                        <td>07</td>
+                        <td>08</td>
+                        <td>09</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>02</td>
+                        <td>03</td>
+                        <td>04</td>
+                        <td>05</td>
+                        <td>06</td>
+                        <td>07</td>
+                        <td>08</td>
+                        <td>09</td>
+                    </tr>
+                    <tr>
+                        <td>01</td>
+                        <td>02</td>
+                        <td>03</td>
+                        <td>04</td>
+                        <td>05</td>
+                        <td>06</td>
+                        <td>07</td>
+                        <td>08</td>
+                        <td>09</td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <div class="pageBox">
+            <!-- <button class="prev">上一页</button>
+            <span class="pageTips">1/10</span>
+            <button class="next">下一页</button> -->
+        </div>
+    </div>
+
+    <div class="shadow">
+        <form class="detail" action="" autocomplete="off" onsubmit="return false">
+            <p><label>编号:<input type="text" name="id" disabled></label></p>
+            <p><label>姓名:<input type="text" name="name" disabled></label></p>
+            <p><label>班级:<input type="text" name="class" disabled></label></p>
+            <p><label>语文:<input type="text" name="chinese"></label></p>
+            <p><label>数学:<input type="text" name="math"></label></p>
+            <p><label>英语:<input type="text" name="english"></label></p>
+            <p><button class="subBtn">确定</button><button class="canBtn">取消</button></p>
+        </form>
+    </div>
+
+</body>
+<script>
+
+    var tips = document.getElementsByClassName("tips")[0];
+    var tbody = document.querySelector(".wrapTable tbody");
+    var editList = document.getElementsByClassName("edit");
+    var shadow = document.getElementsByClassName("shadow")[0];
+    var detailForm = document.getElementsByClassName("detail")[0];
+    var subBtn = document.getElementsByClassName("subBtn")[0];
+    var canBtn = document.getElementsByClassName("canBtn")[0];
+
+    var resetBtn = document.getElementsByClassName("resetBtn")[0];
+
+    var searchCon = document.getElementsByClassName("searchCon")[0];
+    var searchBtn = document.getElementsByClassName("searchBtn")[0];
+    var orderColList = document.getElementsByClassName("orderCol");
+    var orderTypeList = document.getElementsByClassName("orderType");
+
+    var pageTips = document.getElementsByClassName("pageTips")[0];
+    var prev = document.getElementsByClassName("prev")[0];
+    var next = document.getElementsByClassName("next")[0];
+    var select = document.getElementsByClassName("select")[0];
+
+    // 全局变量 1. 设置默认值  2.始终记录对应字段的变化 
+    var key = "";   // 默认搜索的关键词 ""  => 查询所有数据
+    var orderCol = "id"; // 默认排序列名 id
+    var orderType = "asc"; // 默认排序方式 asc
+    var showNum = 5; // 默认每页显示五条数据
+    var pageIndex = 1; // 默认显示第一页
+
+    // 如果有lgc => 就显示欢迎,xxx 
+    var cookie = document.cookie;
+    if (cookie) {
+        var lgc = getCookie("lgc");
+        if (lgc) {
+            tips.innerHTML = `欢迎,${lgc} <button onclick="exit()">退出</button>`;
+        }
+    }
+
+    // 页面加载时 请求5条数据生成
+    getData();
+
+
+    // 事件委托
+    // 利用事件冒泡的原理 把子元素的事件委托给父代元素,由父元素代为执行  
+    // 可以给未来生成的元素绑定事件
+
+    tbody.onclick = function (e) {
+        var e = e || window.event;
+        var target = e.target || e.srcElement;
+
+        if (target.className == "edit") {  // 编辑
+            console.log("点击了编辑");
+            // 编辑  => 找到对应的数据 生成到shadow中
+            shadow.style.display = "block";
+
+            var tr = target.parentElement.parentElement;   //找到父元素tr
+            var id = tr.getAttribute("data-id");  // 获取自定义属性id
+            console.log(id);
+
+            // 根据id从后端查找对应的数据
+            $.ajax({
+                type: "get",
+                url: "../php/searchGradeById.php",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function (result) {  // data  形式参数  表示请求成功时返回的数据
+                    var { status, msg, data: { id, name, class: _class, chinese, math, english, total } } = result;
+
+                    detailForm.id.value = id;
+                    detailForm.name.value = name;
+                    detailForm.class.value = _class;
+                    detailForm.chinese.value = chinese;
+                    detailForm.math.value = math;
+                    detailForm.english.value = english;
+                }
+            })
+
+            // var xhr = new XMLHttpRequest();
+
+            // xhr.open("get", "../php/searchGradeById.php?id=" + id, true);
+
+            // xhr.send();
+
+            // xhr.onreadystatechange = function () {
+            //     if (xhr.readyState == 4 && xhr.status == 200) {
+            //         console.log(xhr.responseText);
+            //         var result = JSON.parse(xhr.responseText);
+            //         console.log(result);
+
+            //         var { status, msg, data: { id, name, class: _class, chinese, math, english, total } } = result;
+
+            //         detailForm.id.value = id;
+            //         detailForm.name.value = name;
+            //         detailForm.class.value = _class;
+            //         detailForm.chinese.value = chinese;
+            //         detailForm.math.value = math;
+            //         detailForm.english.value = english;
+
+
+
+            //     }
+            // }
+
+
+
+        } else if (target.className == "del") {  // 删除
+            console.log("点击了删除");
+            var tr = target.parentElement.parentElement;
+
+            var id = tr.getAttribute("data-id");
+            console.log(id);
+
+            if (confirm("是否删除该数据?")) {
+
+                deleteGradeById({ ids: id }).then((status, msg) => {
+                    // var { status, msg } = result;
+                    if (status) {
+                        tr.remove();
+                        getData();
+                    } else {
+                        alert(msg);
+                    }
+                }).catch(err => {
+                    throw err;
+                })
+
+                // $.ajax({
+                //     type: "get",
+                //     url: "../php/deleteGradeById.php",
+                //     data: {
+                //         ids: id
+                //     },
+                //     dataType: "json",
+                //     success: function (result) {  // data  形式参数  表示请求成功时返回的数据
+                //         var { status, msg } = result;
+                //         if (status) {
+                //             tr.remove();
+                //             getData();
+                //         } else {
+                //             alert(msg);
+                //         }
+                //     }
+                // })
+
+            }
+
+        }
+
+    }
+
+    subBtn.onclick = function () {
+        var id = detailForm.id.value;
+        var chinese = detailForm.chinese.value;
+        var math = detailForm.math.value;
+        var english = detailForm.english.value;
+
+        if (id && chinese && math && english) {
+
+            $.ajax({
+                type: "post",
+                url: "../php/updateGradeById.php",
+                data: {
+                    id, chinese, math, english
+                },
+                dataType: "json",
+                success: function (result) {  // data  形式参数  表示请求成功时返回的数据
+                    var { status, msg } = result;
+                    if (status) {
+                        shadow.style.display = "none";
+                        getData();
+                    } else {
+                        alert(msg);
+                    }
+                }
+            })
+
+            // var xhr = new XMLHttpRequest();
+
+            // xhr.open("post", "../php/updateGradeById.php", true);
+
+            // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            // xhr.send(`id=${id}&chinese=${chinese}&math=${math}&english=${english}`);
+
+            // xhr.onreadystatechange = function () {
+            //     if (xhr.readyState == 4 && xhr.status == 200) {
+            //         console.log(xhr.responseText);
+            //         var { status, msg } = JSON.parse(xhr.responseText);
+            //         if (status) {
+            //             shadow.style.display = "none";
+            //             getData();
+            //         } else {
+            //             alert(msg);
+            //         }
+
+            //     }
+            // }
+
+        } else {
+            alert("请输入完整数据");
+        }
+
+    }
+    canBtn.onclick = function () {
+        shadow.style.display = "none";
+    }
+
+    searchBtn.onclick = function () {
+        key = searchCon.value.trim();
+        getData();
+    }
+
+    for (let i = 0; i < orderColList.length; i++) {
+        let ele = orderColList[i];
+        ele.onclick = function () {
+            orderCol = this.value;
+            getData();
+        }
+    }
+
+    for (let i = 0; i < orderTypeList.length; i++) {
+        let ele = orderTypeList[i];
+        ele.onclick = function () {
+            orderType = this.value;
+            getData();
+        }
+    }
+
+    select.onchange = function () {
+        showNum = this.value;
+        getData();
+    }
+
+    resetBtn.onclick = function () {
+        key = "";   // 默认搜索的关键词 ""  => 查询所有数据
+        orderCol = "id"; // 默认排序列名 id
+        orderType = "asc"; // 默认排序方式 asc
+        showNum = 5; // 默认每页显示五条数据
+        pageIndex = 1; // 默认显示第一页
+        getData();
+    }
+
+
+    function getData() {
+        // 页面加载时 请求5条数据生成
+        searchAllGradeLimit({ key, orderCol, orderType, pageIndex, showNum }).then(data => {
+            var { count, maxPage, list } = data;
+            if (list.length) {
+                pageIndex = pageIndex > maxPage ? maxPage : pageIndex;
+
+
+
+                var html = "";
+                list.forEach(({ id, name, class: _class, chinese, math, english, total }) => {
+                    html += `<tr data-id="${id}">
+                        <td>${id}</td>
+                        <td>${name}</td>
+                        <td>${_class}</td>
+                        <td>${chinese}</td>
+                        <td>${math}</td>
+                        <td>${english}</td>
+                        <td>${total}</td>
+                        <td><a href="javascript:;" class="edit">编辑</a></td>
+                        <td><a href="javascript:;" class="del">删除</a></td>
+                    </tr>`
+                });
+                tbody.innerHTML = html;  // 动态生成  
+
+                // 每次都会根据搜索的数据重新生成分页
+                $(".pageBox").pagination({
+                    totalData: count,
+                    showData: showNum,
+                    pageCount: maxPage,
+                    current: pageIndex,
+                    mode: "fixed",
+                    count: 4,
+
+                    coping: true,
+                    homePage: "首页",
+                    endPage: "尾页",
+
+                    jump: true,
+
+                    callback(api) {
+                        console.log(api.getCurrent());
+                        pageIndex = api.getCurrent();
+                        getData();
+                    }
+                })
+
+            } else {
+                tbody.innerHTML = "<tr><td colspan='9'>暂无数据</td></tr>";  // 动态生成 
+            }
+        })
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    function exit() {
+        // setCookie("lgc", "", -1);
+        delCookie("lgc");
+        location.reload();
+    }
+
+</script>
+
+</html>

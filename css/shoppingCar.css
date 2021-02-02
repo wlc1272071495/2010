@@ -1,0 +1,366 @@
+@charset "UTF-8";
+/* 公共部分 */
+.public {
+  margin: 0 auto;
+  width: 1102px;
+}
+
+/* 顶部 */
+#top_all {
+  height: 31px;
+  background-color: #000;
+  border-bottom: 1px solid #ededee;
+}
+
+.top {
+  height: 31px;
+}
+
+.topLeft {
+  float: left;
+}
+
+.topLeft li {
+  float: left;
+  line-height: 31px;
+}
+
+.topLeft ul li:first-child {
+  margin-right: 24px;
+  margin-left: 6px;
+}
+
+.topLeft ul li:nth-child(3) {
+  margin: 0 28px;
+}
+
+.topLeft li a {
+  color: #999999;
+}
+
+.topRight {
+  float: right;
+  line-height: 31px;
+}
+
+.topRight li {
+  float: left;
+  position: relative;
+}
+
+.topRight li a {
+  color: #999;
+}
+
+.topRight ul li:nth-child(2) {
+  margin-left: 25px;
+  margin-right: 34px;
+}
+
+.topRight ul li:nth-child(4) {
+  margin-left: 39px;
+  margin-right: 45px;
+}
+
+.topRight ul li:nth-child(6) {
+  margin-left: 48px;
+  margin-right: 45px;
+}
+
+.topRight ul li:last-child {
+  margin-right: 30px;
+}
+
+.topRight ul li img {
+  position: absolute;
+  top: 13px;
+  left: 51px;
+}
+
+.topRight ul li .liimg1 {
+  left: 62px;
+}
+
+.topRight ul li .liimg2 {
+  left: 27px;
+}
+
+/* logo板块 */
+#logo_all {
+  height: 122px;
+  background-color: #fff;
+}
+
+.logo {
+  height: 122px;
+  position: relative;
+}
+
+.log {
+  float: left;
+  margin-left: 5px;
+  margin-right: 130px;
+}
+
+.log img {
+  margin-top: 20px;
+}
+
+/* 购物车区 */
+#shoppingCarAll {
+  height: 585px;
+  background-color: #fff;
+}
+
+.shoppingCarTop {
+  height: 18px;
+  line-height: 18px;
+  margin-bottom: 12px;
+}
+
+.shoppingCarTop #city {
+  float: right;
+}
+
+.shoppingCarTop i {
+  float: right;
+}
+
+.shoppingCarTop a {
+  float: right;
+}
+
+.shoppingCarTop em {
+  float: right;
+}
+
+.shoppingCarMsg {
+  height: 34px;
+  border: 1px solid #ccc;
+  line-height: 34px;
+}
+
+.shoppingCarMsg #AllSelect {
+  margin-left: 21px;
+}
+
+.shoppingCarMsg span {
+  margin-left: 13px;
+}
+
+.shoppingCarMsg b {
+  margin-left: 71px;
+  color: #999999;
+}
+
+.shoppingCarMsg ul {
+  float: right;
+  height: 34px;
+  color: #999999;
+}
+
+.shoppingCarMsg ul li {
+  float: left;
+  line-height: 34px;
+  margin-right: 78px;
+}
+
+.shoppingCarMsg ul li:nth-child(1) {
+  margin-right: 105px;
+}
+
+.shoppingCarMsg ul li:nth-child(2) {
+  margin-right: 121px;
+}
+
+/* <!-- 以下为动态生成区域 --> */
+.shoppingCarConTop {
+  margin-top: 15px;
+  height: 36px;
+  line-height: 36px;
+}
+
+.shoppingCarConTop input {
+  margin-left: 22px;
+}
+
+.shoppingCarConCenter {
+  /* height: 159px; */
+  border: 1px solid #ccc;
+  width: 1100px;
+}
+
+.shoppingCarConCenter01 {
+  /* height: 120px; */
+  border-bottom: 1px solid #ccc;
+  width: 1100px;
+  overflow: hidden;
+  background-color: #fffbf0;
+}
+
+.shoppingCarConCenter01 input {
+  float: left;
+  margin-top: 52px;
+  margin-left: 22px;
+}
+
+.shoppingCarConCenter01 img {
+  float: left;
+  width: 80px;
+  height: 80px;
+  margin-left: 11px;
+  margin-right: 15px;
+  margin-top: 21px;
+}
+
+.shoppingCarConCenter01_01 {
+  float: left;
+  width: 213px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+
+.shoppingCarConCenter01_01 p {
+  margin-bottom: 7px;
+}
+
+.shoppingCarConCenter01_01 a {
+  display: block;
+  width: 65px;
+  height: 16px;
+  margin-top: 7px;
+  border: 1px solid red;
+  border-radius: 9px;
+  text-align: center;
+  line-height: 16px;
+  color: red;
+}
+
+.goodsPrice {
+  float: left;
+  font-weight: 600;
+  margin-left: 244px;
+  margin-top: 38px;
+}
+
+.goodsNums {
+  width: 85px;
+  height: 20px;
+  border: 1px solid #bcbcbc;
+  float: left;
+  margin-left: 95px;
+  margin-top: 28px;
+  text-align: center;
+}
+
+.goodsNums button {
+  width: 20px;
+  height: 20px;
+  float: left;
+  background-color: #fff;
+  border: 0;
+}
+
+.goodsNums #goodsNum {
+  width: 43px;
+  height: 20px;
+  float: left;
+  border: 0;
+  margin: 0;
+  background-color: #fff;
+  border-left: 1px solid #bcbcbc;
+  border-right: 1px solid #bcbcbc;
+}
+
+.goodsNums p {
+  color: red;
+  margin-top: 8px;
+  line-height: 36px;
+}
+
+.goodsAllPrice {
+  float: left;
+  margin-top: 30px;
+  margin-left: 90px;
+}
+
+.del {
+  float: left;
+  margin-left: 87px;
+  margin-top: 25px;
+}
+
+.del h2 {
+  margin-bottom: 10px;
+}
+
+.shoppingCarConBottom {
+  height: 38px;
+  line-height: 38px;
+}
+
+.shoppingCarConBottom span {
+  float: right;
+  margin-right: 30px;
+}
+
+.shoppingCarConBottom b {
+  float: right;
+  margin-right: 30px;
+}
+
+/* <!-- 底部总结算栏 --> */
+.shoppingCarButtom {
+  height: 60px;
+  background-color: #f8f8f8;
+  border: 1px solid #bcbcbc;
+  margin-top: 34px;
+  line-height: 60px;
+}
+
+.shoppingCarButtom p {
+  float: left;
+}
+
+#AllSelect2 {
+  margin-left: 31px;
+  margin-right: 13px;
+}
+
+.shoppingCarButtom p a {
+  margin-left: 8px;
+  color: #000;
+}
+
+.goodsAllNum {
+  float: left;
+  margin-left: 560px;
+}
+
+.goodsAllNum span {
+  color: red;
+  font-weight: 600;
+}
+
+.goodsAllPrice2 {
+  float: left;
+  margin-left: 40px;
+}
+
+.goodsAllPrice2 span {
+  color: red;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.pay {
+  display: block;
+  height: 60px;
+  width: 100px;
+  background-color: #e31436;
+  float: right;
+  text-align: center;
+  line-height: 60px;
+  color: #fff;
+  font-size: 16px;
+}

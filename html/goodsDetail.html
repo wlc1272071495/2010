@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/detail.css">
+    <link rel="stylesheet" href="../css/ui-base.css">
+    <script src="../js/jquery-1.10.1.min.js"></script>
+    <script src="../js/request.js"></script>
+    <script src="../js/cookie.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        .wrap {
+            width: 1140px;
+            margin: 0 auto;
+            margin-top: 100px;
+            position: relative;
+            overflow: hidden;
+            height: 600px;
+        }
+
+        .wrapBox {
+            width: 400px;
+            height: 400px;
+            background-color: pink;
+            position: relative;
+        }
+
+        .wrapBox img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .shadow {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            display: none;
+        }
+
+        .showBigImg {
+            width: 400px;
+            height: 400px;
+            float: left;
+            background-color: #0000004d;
+            overflow: hidden;
+            position: absolute;
+            left: 500px;
+            top: 0;
+
+            display: none;
+
+        }
+
+        .showBigImg img {
+            position: absolute;
+            /* z-index: -1; */
+            width: 800px;
+            height: 800px;
+        }
+
+        .switchList {
+            width: 400px;
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .switchList li {
+            flex: 1;
+            margin: 5px;
+            border: 1px solid transparent;
+        }
+
+        .switchList .active {
+            border-color: red;
+        }
+
+        .switchList li img {
+            width: 100%;
+        }
+
+        .wrap .left {
+            float: left;
+        }
+
+        .wrap .right {
+            float: left;
+            /* overflow: hidden; */
+            width: 640px;
+            margin-left: 100px;
+            background-color: #6ff;
+            min-height: 400px;
+        }
+
+        .wrap .right h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .wrap .right>div {
+            margin-bottom: 20px;
+        }
+
+        .detailBox {
+            width: 1140px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="./login.html">你好,请登录</a>
+        <a href="./register.html">注册</a>
+    </div>
+    <div class="wrap">
+        <div class="left">
+            <!-- <div class="wrapBox">
+                <div class="shadow"></div>
+                <img class="small" src="../images/small.jpg" alt="">
+            </div>
+            <ul class="switchList">
+                <li class="active"><img src="../images/small.jpg" bigImg="../images/big.jpg" alt=""></li>
+                <li><img src="../images/girlsmall1.jpg" bigImg="../images/girlbig1.jpg" alt=""></li>
+                <li><img src="../images/girlsmall2.jpg" bigImg="../images/girlbig2.jpg" alt=""></li>
+                <li><img src="../images/girlsmall3.jpg" bigImg="../images/girlbig3.jpg" alt=""></li>
+                <li><img src="../images/girlsmall4.jpg" bigImg="../images/girlbig4.jpg" alt=""></li>
+            </ul>
+            <div class="showBigImg">
+                <img class="bigImg" src="../images/big.jpg" alt="">
+            </div> -->
+        </div>
+        <div class="right">
+            <!-- <h2>Apple iPhone 11 (A2223) 128GB 黑色 移动联通电信4G手机 双卡双待</h2>
+            <div class="price">
+                京 东 价:￥ <span>4999.00</span> 降价通知
+            </div>
+            <div class="buyNum">
+                <span class="reduce">-</span>
+                <input type="number" value="1">
+                <span class="add">+</span>
+            </div>
+            <button class="addToCar">
+                加入购物车
+            </button> -->
+        </div>
+    </div>
+    <div class="detailBox">
+
+    </div>
+</body>
+<script>
+
+    $(function () {
+
+        var cookie = document.cookie;
+        if (cookie) {
+            var user = getCookie("lgc");
+            if (user) {
+                $(".box").html(`<a href="javascript:;">欢迎,${user}</a><button class="exit">退出</button>`);
+
+                var button = document.getElementsByClassName("exit")[0];
+                button.onclick = function () {
+                    setCookie("lgc", "", -1);
+                    location.reload();
+                }
+            }
+        } else {
+            var user = "";
+        }
+
+        var search = location.search;
+
+        if (search) {
+            var gid = search.split("=")[1];
+            console.log(gid);
+
+            searchGoodsByGoodsId({ gid }).then(result => {
+                console.log(result);
+
+                if (result.status == false) { // 如果没有数据=> 人为对参数进行了修改,强制调回主页
+                    location.href = "./index.html";
+                    return false;
+                }
+
+                var { status, msg, data: { goodsName, goodsPrice, smallPicList, bigPicList, goodsDetail } } = result;
+
+
+
+                var leftHtml = `<div class="wrapBox">
+                <div class="shadow"></div>
+                <img class="smallImg" src="${bigPicList[0]}" alt="">
+            </div>
+            <ul class="switchList">
+            </ul>
+            <div class="showBigImg">
+                <img class="bigImg" src="${bigPicList[0]}" alt="">
+            </div>`;
+
+                $(".wrap .left").html(leftHtml);
+
+                var switchListHtml = "";
+                //     <li class="active"><img src="../images/small.jpg" bigImg="../images/big.jpg" alt=""></li>
+                //     <li><img src="../images/girlsmall1.jpg" bigImg="../images/girlbig1.jpg" alt=""></li>
+                //     <li><img src="../images/girlsmall2.jpg" bigImg="../images/girlbig2.jpg" alt=""></li>
+                //     <li><img src="../images/girlsmall3.jpg" bigImg="../images/girlbig3.jpg" alt=""></li>
+                //     <li><img src="../images/girlsmall4.jpg" bigImg="../images/girlbig4.jpg" alt=""></li>
+                var len = bigPicList.length >= 4 ? 4 : bigPicList.length;
+                for (var i = 1; i <= len; i++) {
+                    switchListHtml += `<li><img src="${smallPicList[i]}" bigImg="${bigPicList[i]}" alt=""></li>`
+                }
+
+                $(".wrap .left .switchList").html(switchListHtml);
+                $(".wrap .left .switchList li").eq(0).addClass("active");
+
+
+                // 商品详情
+                var rightHtml = `<h2>${goodsName}</h2>
+            <div class="price">
+                京 东 价:￥ <span>${goodsPrice}</span> 降价通知
+            </div>
+            <div class="buyNum">
+                <span class="reduce">-</span>
+                <input type="number" value="1">
+                <span class="add">+</span>
+            </div>
+            <button class="addToCar">
+                加入购物车
+            </button>`
+                $(".wrap .right").html(rightHtml);
+
+                $(".detailBox").html(goodsDetail);
+
+
+
+
+            })
+
+
+        } else {
+            location.href = "./goodsList.html";
+        }
+
+
+
+        $(document).on("click", ".switchList li", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+
+            var imgSrc = $(this).find("img").attr("bigImg");
+            console.log(imgSrc);
+            $(".smallImg,.bigImg").prop("src", imgSrc);
+        })
+        $(document).on("click", ".addToCar", function () {
+            var user = getCookie("lgc");
+            console.log(user);
+
+            if (user) {   //用户已登录
+                // console.log("准备加入购物车");
+
+                // 谁??  买了什么东西??  买了几件
+
+                //  谁??  当前登录的用户
+                //  买了什么东西??   商品信息太多 => 存gid 
+                //  买了几件?    
+
+                var buyNum = $(".buyNum>input").val();
+                addToShoppingCar({ user, gid, buyNum }).then(({ status, msg, sql = "" }) => {
+                    if (status) {
+                        if (confirm("商品加入成功,是否进入购物车?")) {
+                            location.href = "./shoppingCar.html"
+                        }
+                    } else {
+                        alert(msg);
+                    }
+                })
+
+
+            } else {   //没有登录  => 跳转登录 (如此登录成功会直接调换index.html 用户体验极差)
+                // location.href = "./login.html"
+
+                //怎么解决?    
+                // 把当前网址存一份  =>  以参数数据形式 存在url中 (为了安全,先将url编码再存)
+                location.href = "./login.html?returnUrl=" + encodeURIComponent(location.href);
+            }
+        })
+
+
+    })
+
+
+</script>
+
+</html>

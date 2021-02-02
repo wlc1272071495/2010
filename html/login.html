@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/cookie.js"></script>
+    <script src="../js/ajax.js"></script>
+    <script src="../js/request.js"></script>
+</head>
+
+<body>
+    <!--  onsubmit="return false"    阻止表单默认提交 -->
+    <form onsubmit="return false">
+        <p><label for="">用户名:</label><input name="user" type="text"></p>
+        <p><label for="">密&emsp;码:</label><input name="pwd" type="text"></p>
+        <p><label><input type="checkbox" class="isRem">是否记住本账号?</label></p>
+        <p><button class="logBtn">登录</button></p>
+    </form>
+</body>
+<script>
+
+
+
+
+    var userInp = document.getElementsByName("user")[0];
+    var pwdInp = document.getElementsByName("pwd")[0];
+    var logBtn = document.getElementsByClassName("logBtn")[0];
+    var isRem = document.getElementsByClassName("isRem")[0];
+
+
+
+
+    logBtn.onclick = function () {
+        // 用户输入的
+
+
+        var user = userInp.value;
+        var pwd = pwdInp.value;
+
+        if (user && pwd) {
+
+            login({ user, pwd }).then(result => {
+                if (result.status) {
+                    if (isRem.checked) {
+                        setCookie("lgc", user, 7);
+                    } else {
+                        setCookie("lgc", user);
+                    }
+
+                    var search = location.search;
+                    if (search) {
+                        var str = search.split("=")[1];
+                        var url = decodeURIComponent(str);
+                        if (url) {
+                            location.href = url;
+                        }
+                    } else {
+                        location.href = "./index.html";
+                    }
+
+
+                } else {
+                    alert(result.msg);
+                }
+            }).catch(err => {
+                throw err;
+            })
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>

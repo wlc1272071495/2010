@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.w {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+.wrapAll table {
+    width: 100%;
+    line-height: 45px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+
+}
+
+table,
+td,
+th {
+    border: 1px solid grey;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.w {
+    width: 1140px;
+    margin: 0 auto;
+}
+
+.wrapTable {
+    min-height: 275px;
+}
+
+.gradeList table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+    line-height: 32px;
+    font-size: 18px;
+}
+
+.gradeList table,
+.gradeList th,
+.gradeList td {
+    border: 1px solid #333;
+}
+
+.pageBox {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pageBox>* {
+    margin: 0 5px;
+}

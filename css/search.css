@@ -1,0 +1,129 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.wrap {
+    width: 1224px;
+    margin: 0 auto;
+}
+
+.wrap table {
+    width: 100%;
+    table-layout: fixed;
+    border: 1px solid #333;
+    border-collapse: collapse;
+    line-height: 32px;
+    text-align: center;
+}
+
+.wrap table td,
+.wrap table th {
+    border: 1px solid #333;
+    overflow: hidden;
+}
+
+.search_bar {
+    overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.search_bar .searchBox {
+    float: left;
+    border: 1px solid gray;
+}
+
+.search_bar .searchBox input {
+    height: 30px;
+    width: 300px;
+    float: left;
+    border: 0;
+    outline: none;
+    text-indent: 10px;
+}
+
+.search_bar .searchBox button {
+    height: 30px;
+    width: 60px;
+    float: left;
+    box-sizing: content-box;
+    border: 0;
+    outline: none;
+}
+
+.search_bar .searchBox {
+    overflow: hidden;
+}
+
+.search_bar .orderBox {
+    float: left;
+    line-height: 30px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.search_bar .orderBox>*>label {
+    margin-right: 10px;
+}
+
+.search_bar .orderBox>* {
+    margin-left: 20px;
+    float: left;
+    border: 1px dashed #333;
+    padding: 0 10px;
+}
+
+.search_bar .orderBox .showNumBox {
+    border: 0;
+}
+
+.search_bar select {
+    vertical-align: middle;
+    height: 30px;
+    padding: 0 5px;
+}
+
+.pageChangeBox {
+    text-align: center;
+    margin-top: 20px;
+
+}
+
+.pageChangeBox button {
+    height: 32px;
+    width: 60px;
+}
+
+.pageChangeBox button:nth-child(2) {
+    margin-left: 50px;
+}
+
+.showGrade {
+    min-height: 196px;
+}
+
+.shadow {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.shadow form label{
+    padding-right: 10px;
+}
+.shadow form {
+    padding: 20px;
+    background-color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.shadow form p {
+    margin-bottom: 5px;
+}

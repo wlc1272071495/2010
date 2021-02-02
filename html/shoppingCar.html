@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="../css/common.css"> -->
+    <link rel="stylesheet" href="../css/shoppingCar.css">
+    <script src="../js/cookie.js"></script>
+    <script src="../js/jquery-1.10.1.min.js"></script>
+    <script src="../js/request.js"></script>
+    <style>
+        @charset "UTF-8";
+
+        /*清除格式*/
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li,
+        ol,
+        dl,
+        dd,
+        fieldset,
+        legend,
+        button,
+        input,
+        textarea,
+        th,
+        td {
+            padding: 0;
+            margin: 0;
+        }
+
+        html {
+            font-family: "微软雅黑";
+            font-size: 12px;
+            background-color: #eee;
+        }
+
+        .clear:after {
+            content: "";
+            display: block;
+            clear: both;
+            height: 0;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        .clear {
+            zoom: 1;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        b,
+        strong {
+            font-weight: normal;
+        }
+
+        i,
+        em {
+            font-style: normal;
+        }
+
+        img {
+            vertical-align: top;
+            border: 0;
+        }
+
+        input,
+        select,
+        button,
+        textarea {
+            outline: none;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        input[type="button"],
+        input[type="submit"],
+        input[type="file"] {
+            cursor: pointer;
+        }
+
+        input::-webkit-input-placeholder {
+            /* WebKit browsers */
+            color: #ddd;
+        }
+
+        input:-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #ddd;
+        }
+
+        input::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #ddd;
+        }
+
+        input:-ms-input-placeholder {
+            /* Internet Explorer 10+ */
+            color: #ddd;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: normal;
+            font-size: 12px;
+        }
+
+        .public {
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <div id="top_all">
+        <div class="top public">
+            <div class="topLeft">
+                <ul>
+                    <li><a href="#">考拉欢迎你!</a></li>
+                    <li><a href="#">登录</a></li>
+                    <li><a href="#">免费注册</a></li>
+                    <li><a href="#">手机考拉</a></li>
+                </ul>
+            </div>
+            <div class="topRight">
+                <ul>
+                    <li><a href="#">每日签到</a></li>
+                    <li><a href="#">我的订单</a></li>
+                    <li><a href="#">个人中心</a></li>
+                    <li><a href="#">客户服务<img src="../images/111_03.jpg" alt=""></a></li>
+                    <li><a href="#">充值中心<img src="../images/111_03.jpg" alt=""></a></li>
+                    <li><a href="#">消费者权益<img src="../images/111_03.jpg" alt="" class="liimg1"></a></li>
+                    <li><a href="#">登录<img src="../images/111_03.jpg" alt="" class="liimg2"></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- logo板块 -->
+    <div id="logo_all">
+        <div class="logo public">
+            <!-- logo区 -->
+            <div class="log">
+                <img src="../images/2_03.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- 购物车板块 -->
+    <div id="shoppingCarAll">
+        <div class="shoppingCarTop public">
+            <span>我的购物车</span>
+            <b>2</b>
+            <select name="湖北省/武汉市/江岸区" id="city">
+                <option value="湖北省/武汉市/江岸区">湖北省/武汉市/江岸区</option>
+                <option value="汉口区">汉口区</option>
+                <option value="江夏区">江夏区</option>
+                <option value="洪山区">洪山区</option>
+            </select>
+            <i>配送至&emsp;</i>
+            <a href="#">再逛逛 >&emsp;</a>
+            <em>考拉自营商品以免运费&emsp;</em>
+        </div>
+
+        <div class="shoppingCarMsg public">
+            <input type="checkbox" name="" id="AllSelect">
+            <span>全选</span>
+            <b>商品信息</b>
+            <ul>
+                <li>单价(元)</li>
+                <li>数量</li>
+                <li>金额元)</li>
+                <li>操作</li>
+            </ul>
+        </div>
+
+        <!-- 以下为动态生成区域 -->
+        <div class="shoppingCarCon public">
+            <div class="shoppingCarConTop">
+                <input type="checkbox" name="" class="check-all">
+                <span>自营保税仓</span>
+            </div>
+
+            <div class="shoppingCarConCenter public">
+                <!-- <div class="shoppingCarConCenter01">
+                    <input type="checkbox" name="" class="check-one">
+                    <img src="../images/shoppingCarConCenter01.jpg" alt="">
+                    <div class="shoppingCarConCenter01_01">
+                        <p>【3盒装】hierarchy美国直营包邮水乳不湿清洁护肤有效改善面部肌肤问题</p>
+                        <span>支持7天退货</span>
+                        <a href="#">限时购</a>
+                    </div>
+                    <div class="goodsPrice">148</div>
+                    <div class="goodsNums">
+                        <button>-</button>
+                        <input type="number" id="goodsNum">
+                        <button>+</button>
+                        <p>每日限购2件</p>
+                    </div>
+                    <div class="goodsAllPrice">
+                        148
+                    </div>
+                    <div class="del">
+                        <h2>删除</h2>
+                        <p>移入我的收藏</p>
+                    </div>
+                </div> -->
+                <!-- <div class="shoppingCarConBottom public">
+                    <span>活动优惠 ￥0元</span>
+                    <b>预估税费 ￥0元</b>
+                </div> -->
+            </div>
+
+        </div>
+
+        <!-- 底部总结算栏 -->
+        <div class="shoppingCarButtom public">
+            <p>
+                <input type="checkbox" name="" id="AllSelect2">
+                <label for="AllSelect2">全选</label>
+                <a href="javascript:;" id="deteleAll">删除选择商品</a>
+            </p>
+            <div class="goodsAllNum">
+                已选商品 <span> 2 </span> 件
+            </div>
+            <div class="goodsAllPrice2">
+                总价(不含运费):
+                <span>￥288元</span>
+            </div>
+            <a href="#" class="pay">去结算</a>
+        </div>
+    </div>
+</body>
+<script>
+    /*  <div class="shoppingCarConCenter01">
+                        <input type="checkbox" name="" id="selectCenter">
+                        <img src="../images/shoppingCarConCenter01.jpg" alt="">
+                        <div class="shoppingCarConCenter01_01">
+                            <p>【3盒装】hierarchy美国直营包邮水乳不湿清洁护肤有效改善面部肌肤问题</p>
+                            <span>支持7天退货</span>
+                            <a href="#">限时购</a>
+                        </div>
+                        <div class="goodsPrice">148</div>
+                        <div class="goodsNums">
+                            <button>-</button>
+                            <input type="number" id="goodsNum">
+                            <button>+</button>
+                            <p>每日限购2件</p>
+                        </div>
+                        <div class="goodsAllPrice">
+                            148
+                        </div>
+                        <div class="del">
+                            <h2>删除</h2>
+                            <p>移入我的收藏</p>
+                        </div>
+                    </div> */
+
+
+    var user = getCookie("lgc");
+    if (user) {
+        searchShoppingCarByUser({ user }).then(data => {
+            console.log(data);
+
+            var html = "";
+            data.forEach(({ id, gid, goodsName, goodsPrice, goodsImg, buyNum, subTotal }) => {
+                html += `<div class="shoppingCarConCenter01" data-id="${id}">
+                        <input type="checkbox" class="check-one" name="" id="selectCenter">
+                        <img src="${goodsImg}" alt="">
+                        <div class="shoppingCarConCenter01_01">
+                            <p>${goodsName}</p>
+                            <span>支持7天退货</span>
+                            <a href="#">限时购</a>
+                        </div>
+                        <div class="goodsPrice">${goodsPrice}</div>
+                        <div class="goodsNums">
+                            <button>${buyNum > 1 ? "-" : ""}</button>
+                            <input type="number" min="1" max="10"  id="goodsNum" value=${buyNum}>
+                            <button>+</button>
+                            <p>每日限购2件</p>
+                        </div>
+                        <div class="goodsAllPrice">
+                            ${subTotal}
+                        </div>
+                        <div class="del">
+                            <h2>删除</h2>
+                            <p>移入我的收藏</p>
+                        </div>
+                    </div>`;
+            })
+
+            $(".shoppingCarConCenter").html(html);
+
+        })
+    } else {
+        location.href = "./login.html?returnUrl=" + encodeURIComponent(location.href);
+    }
+
+    // 多删
+    $(document).on("click", "#deteleAll", function () {
+        var list = $(".check-one:checked").map(function () {
+            return $(this).parent().attr("data-id");
+        }).get();
+        console.log(list);
+
+        var ids = list.join(",");
+        deleteShopCarById({ ids }).then(result => {
+            console.log(result);
+            $(".check-one:checked").parents(".shoppingCarConCenter01").remove();
+        })
+
+    })
+
+    // 单删
+    $(document).on("click", ".del h2", function () {
+        var ids = $(this).parents(".shoppingCarConCenter01").attr("data-id");
+        deleteShopCarById({ ids }).then(result => {
+            console.log(result);
+
+            $(this).parents(".shoppingCarConCenter01").remove();
+        })
+
+    })
+
+</script>
+
+</html>
